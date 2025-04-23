@@ -5,6 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "attendance", uniqueConstraints = {
@@ -26,10 +27,10 @@ public class AttendanceModel {
     private LocalDate date;
 
     @Column(name = "clock_in")
-    private LocalDate clockIn;
+    private LocalTime clockIn;
 
     @Column(name = "clock_out")
-    private LocalDate clockOut;
+    private LocalTime clockOut;
 
     @Column(name = "status", length = 20)
     private String status = "PRESENT";

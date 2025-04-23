@@ -3,6 +3,7 @@ package ems.app.service;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +63,7 @@ public class AttendanceService {
 
 
     @Transactional
-    public AttendanceModel clockIn(EmployeeModel employee, LocalDate date, LocalDate time) {
+    public AttendanceModel clockIn(EmployeeModel employee, LocalDate date, LocalTime clockInTime) {
         List<AttendanceModel> attendances = repo.findByEmployeeAndDate(employee, date);
 
         AttendanceModel attendance;
@@ -75,12 +76,12 @@ public class AttendanceService {
             attendance = attendances.get(0);
         }
 
-        attendance.setClockIn(time);
+        attendance.setClockIn(clockInTime);
         return repo.save(attendance);
     }
 
     @Transactional
-    public AttendanceModel clockOut(EmployeeModel employee, LocalDate date, LocalDate time) {
+    public AttendanceModel clockOut(EmployeeModel employee, LocalDate date, LocalTime time) {
         List<AttendanceModel> attendances = repo.findByEmployeeAndDate(employee, date);
 
         if (attendances.isEmpty()) {
