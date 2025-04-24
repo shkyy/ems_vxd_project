@@ -27,7 +27,7 @@ export default function LoginPage() {
             setError('');
             setIsLoading(true);
             await login(username, password);
-            router.push('/dashboard');
+            router.push('/employees');
         } catch( err ) {
             setError('Invalid credentials. Please try again');
         } finally {

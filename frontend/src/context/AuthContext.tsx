@@ -74,7 +74,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const userdata = await response.json();
             setUser(userdata);
             localStorage.setItem('user', JSON.stringify(userdata));
-            router.push('/dashboard');
+            router.push('/employees');
         } catch (error) {
             console.error('Login error,' , error);
             throw error;

@@ -17,7 +17,6 @@ export default function Navbar() {
     if (pathname === '/login') return null;
 
     const navigationPaths = [
-        { name: 'Dashboard', href: '/dashboard' },
         { name: 'Employees', href: '/employees' },
         { name: 'Departments', href: '/departments' },
         { name: 'Attendance', href: '/attendance' },
