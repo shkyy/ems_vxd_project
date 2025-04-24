@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { Avatar, Box, Button, CircularProgress, Container, CssBaseline, Grid, Paper, TextField, Typography } from "@mui/material";
+import { LockOutline } from "@mui/icons-material";
 
 
 export default function LoginPage() {
@@ -34,59 +36,80 @@ export default function LoginPage() {
     };
 
     return (
-        <div>
-            <div>
-                <div>
-                    <h2>
-                        Employee Management System
-                    </h2>
-                    <p>
-                        Sign in to your account
-                    </p>
-                </div>
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                    <div>
-                        <div>
-                            <label htmlFor="username" className="sr-only">Username</label>
-                            <input
+        <Container component='main' maxWidth='lg'>
+            <Grid container component='main' sx={{ height: '100vh' }}>
+                <CssBaseline/>
+                <Grid sx={{
+                    backgroundImage: 'url(/api/placeholder/1200/800)',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundColor: (t) =>
+                        t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                }}
+                />
+                <Grid component={Paper} elevation={6} square>
+                    <Box
+                        sx={{
+                            my: 8,
+                            mx: 4,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+                            <LockOutline/>
+                        </Avatar>
+                        <Typography component='h1' variant="h5">
+                            Employee Management System
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                            Sign in to your account
+                        </Typography>
+                        <Box component='form' noValidate onSubmit={handleSubmit} sx={{ mt: 3, width: '100%' }}>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
                                 id="username"
+                                label="Username"
                                 name="username"
-                                type="text"
                                 autoComplete="username"
-                                required
-                                className="rounded-none relative"
-                                placeholder="Username"
+                                autoFocus
                                 value={username}
-                                onChange={(e) =>  setUsername(e.target.value)}
+                                onChange={(e) => setUsername(e.target.value)}
                             />
-                        </div>
-                        <div>
-                            <label htmlFor="password" className="sr-only">Password</label>
-                            <input
-                                id="password"
-                                name="password"
-                                type="text"
-                                autoComplete="current-password"
+                            <TextField
+                                margin="normal"
                                 required
-                                className="rounded-none relative"
-                                placeholder="Password"
+                                fullWidth
+                                id="password"
+                                label="Password"
+                                name="password"
+                                autoComplete="password"
+                                autoFocus
                                 value={password}
-                                onChange={(e) =>  setPassword(e.target.value)}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
-                        </div>
-                    </div>
 
-                    { error && (
-                        <div>{error}</div>
-                    )}
-
-                    <div>
-                        <button type="submit" disabled={isLoading} className="w-full flex relative">
-                            {isLoading ? 'Signing in..' : 'Sign in'}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                disabled={isLoading}
+                                sx={{ mt: 3, mb: 2, py: 1.5 }}
+                            >
+                                {isLoading ? (
+                                    <CircularProgress size={24} color="inherit"/>
+                                ) : (
+                                    'Sign In'
+                                )}
+                            </Button>
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid>
+        </Container>
     )
 }
