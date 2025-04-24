@@ -3,8 +3,8 @@
 import { useAuth } from "@/context/AuthContext";
 import { deptAPI, empApi } from "@/services/api";
 import { Department, Employee } from "@/types";
-import { FilterList, PersonAdd, Visibility } from "@mui/icons-material";
-import { Avatar, Box, Button, Chip, CircularProgress, Container, Grid, IconButton, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Delete, Edit, FilterList, PersonAdd, Visibility } from "@mui/icons-material";
+import { Avatar, Box, Button, Chip, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, IconButton, MenuItem, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -176,8 +176,8 @@ export default function EmployeePage () {
                             >
                                 <MenuItem value="">All Status</MenuItem>
                                 <MenuItem value="ACTIVE">Active</MenuItem>
-                                <MenuItem value="INACTIVE">Inactive</MenuItem>
                                 <MenuItem value="ON_LEAVE">On Leave</MenuItem>
+                                <MenuItem value="TERMINATED">Terminated</MenuItem>
                             </TextField>
                         </Grid>
                         <Grid sx={{ xs: 12, md: 4}}>
@@ -258,6 +258,27 @@ export default function EmployeePage () {
                                             >
                                                 <Visibility fontSize="small"/>
                                             </IconButton>
+
+                                            {(user?.role !== 'ADMIN') && (
+                                                <>
+                                                    <IconButton
+                                                        LinkComponent={Link}
+                                                        href={`/employee/edit/${emp.employeeId}`}
+                                                        size="small"
+                                                        color="secondary"
+                                                        sx={{ mx: 1}}
+                                                    >
+                                                        <Edit fontSize="small"/>
+                                                    </IconButton>
+                                                    <IconButton
+                                                        size="small"
+                                                        color="secondary"
+                                                        onClick={() => openDeleteDialog(emp.employeeId)}
+                                                    >
+                                                        <Delete fontSize="small"/>
+                                                    </IconButton>
+                                                </>
+                                            )}
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -266,6 +287,24 @@ export default function EmployeePage () {
                     </TableContainer>
                 )}
             </Box>
+
+            <Dialog
+                open={deleteDialogOpen}
+                onClose={() => setDeleteDialogOpen(false)}
+            >
+                <DialogTitle>Confirm Delete</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Are you sure you want to delete this employee? This action cannot be undone.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDeleteDialogOpen(false)}>Cancel</Button>
+                    <Button onClick={handleDeleteComfirm} color="error" variant="contained">
+                        Delete
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Container>
     )
 }
