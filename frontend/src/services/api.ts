@@ -6,13 +6,20 @@ const API_URL = 'http://localhost:8080';
 
 // helper for handling api responses
 const handleResponse = async (response: Response) => {
+    const text = await response.text(); // read raw text
     if (!response.ok) {
-        const error = await response.json().catch(() => ({}));
-        throw new Error(error.message || 'An error occured');
+        let error = {};
+        try {
+            error = text ? JSON.parse(text) : {};
+        } catch {
+            // do nothing, fallback to default error
+        }
+        throw new Error((error as any).message || 'An error occurred');
     }
 
-    return response.json();
+    return text ? JSON.parse(text) : {}; // return parsed JSON or empty object
 };
+
 
 // generic request function
 const request = async (endpoint: string, options = {}) => {
@@ -42,7 +49,7 @@ export const empApi = {
     delete: (id: number) => request(`/employee/${id}`, { method: 'DELETE'}),
     getByDepartment: (deptId: number) => request(`/employee/department/${deptId}`),
     assignToDept: (empId: number, deptId: number) => request(`/employee/${empId}/department/${deptId}`, { method: 'PUT' }),
-    assignManager: (empId: number, managerId: number) => request(`/employee/${empId}/manager/${managerId}`),
+    assignManager: (empId: number, managerId: number) => request(`/employee/${empId}/manager/${managerId}`, { method: 'PUT' }),
     updateStatus: (empId: number, status: string) => request(`/employee/${empId}/status/${status}`, { method: 'PUT' }),
 };
 

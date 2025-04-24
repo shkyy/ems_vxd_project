@@ -29,15 +29,17 @@ export default function EmployeePage () {
                     deptAPI.getAll()
                 ]);
                 setEmployees(emps);
+
+                console.log(emps);
                 setDepartments(depts);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching employees: ', error);
                 setLoading(false);
             }
-
-            fetchedData();
         }
+        fetchedData();
+
     }, []);
 
     const handleFilter = () => {
@@ -112,7 +114,7 @@ export default function EmployeePage () {
                     color: 'warning',
                     variant: 'outlined'
                 };
-            case 'INACTIVE':
+            case 'TERMINATED':
                 return {
                     color: 'error',
                     variant: 'outlined'
@@ -198,13 +200,6 @@ export default function EmployeePage () {
                     </Box>
                 </Paper>
 
-                {employees.length === 0 ? (
-                    <Paper elevation={2} sx={{ p: 6, textAlign: 'center'}}>
-                        <Typography variant="body1" color="text.secondary">
-                            No Employees Found
-                        </Typography>
-                    </Paper>
-                ) : (
                     <TableContainer component={Paper} elevation={3}>
                         <Table sx={{ minWidth: 650 }}>
                             <TableHead>
@@ -285,7 +280,6 @@ export default function EmployeePage () {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                )}
             </Box>
 
             <Dialog

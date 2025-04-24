@@ -1,6 +1,8 @@
+'use client';
+
 import { deptAPI, empApi } from "@/services/api";
 import { Department, Employee } from "@/types";
-import { Alert, Button, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TextField, Typography } from "@mui/material";
+import { Alert, Button, CircularProgress, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TextField, Typography } from "@mui/material";
 import { Box, Grid } from "@mui/system";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -340,7 +342,13 @@ export default function EmployeeForm({ empId, isEdit = false }: EmployeeFormProp
                         >
                             Cancel
                         </Button>
-                        <Button>
+                        <Button
+                            type="submit" 
+                            variant="contained" 
+                            color="primary" 
+                            disabled={loading}
+                            startIcon={loading && <CircularProgress size={20} color="inherit" />}
+                        >
                             { loading ? 'Saving..' : isEdit ? 'Update Employee' : 'Create Employee'}
                         </Button>
                     </Grid>
@@ -354,5 +362,4 @@ export default function EmployeeForm({ empId, isEdit = false }: EmployeeFormProp
             </Snackbar>
         </Paper>
     );
-
 }
