@@ -1,15 +1,17 @@
+'use client';
+
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 
-const LoginPage = () => {
+export default function LoginPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] =useState(false);
 
-    const { login} =useAuth();
+    const { login } = useAuth();
     const router = useRouter();
 
     const handleSubmit = async(e: React.FormEvent) => {
@@ -88,5 +90,3 @@ const LoginPage = () => {
         </div>
     )
 }
-
-export default LoginPage;

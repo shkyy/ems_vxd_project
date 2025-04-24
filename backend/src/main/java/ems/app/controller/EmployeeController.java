@@ -17,6 +17,7 @@ import ems.app.service.DepartmentService;
 import ems.app.service.EmployeeService;
 import jakarta.validation.Valid;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/employee")
+@CrossOrigin(origins = {"http://192.168.1.4:3000", "http://localhost:3000"})
 public class EmployeeController {
     
     private final EmployeeService empService;

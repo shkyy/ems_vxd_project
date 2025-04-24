@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ import ems.app.service.LeaveService;
 
 @RestController
 @RequestMapping("/leave")
+@CrossOrigin(origins = {"http://192.168.1.4:3000", "http://localhost:3000"})
 public class LeaveController {
     private final LeaveService lvService;
     private final EmployeeService empService;
