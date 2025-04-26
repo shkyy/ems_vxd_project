@@ -2,6 +2,7 @@
 
 import { deptAPI, empApi } from "@/services/api";
 import { Department, Employee } from "@/types";
+import { Cancel } from "@mui/icons-material";
 import { Alert, Button, CircularProgress, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, TextField, Typography } from "@mui/material";
 import { Box, Grid } from "@mui/system";
 import { useRouter } from "next/navigation";
@@ -339,6 +340,7 @@ export default function EmployeeForm({ empId, isEdit = false }: EmployeeFormProp
                             color="secondary"
                             onClick={handleCancel}
                             disabled={loading}
+                            startIcon={<Cancel/>}
                         >
                             Cancel
                         </Button>
