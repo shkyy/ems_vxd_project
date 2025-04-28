@@ -2,6 +2,8 @@ package ems.app.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,6 +46,7 @@ public class UserModel {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
+    @JsonBackReference
     private EmployeeModel employee;
     
     @PrePersist

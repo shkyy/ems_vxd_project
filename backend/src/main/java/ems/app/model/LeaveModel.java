@@ -6,6 +6,8 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "leaves")
 @Data
@@ -18,10 +20,11 @@ public class LeaveModel {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
+    @JsonBackReference
     private EmployeeModel employee;
 
     @Column(name = "leave_type", nullable = false, length = 50)
-    private LocalDate leaveType;
+    private String leaveType;
 
     @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
@@ -40,6 +43,7 @@ public class LeaveModel {
 
     @ManyToOne
     @JoinColumn(name = "approvedBy")
+    @JsonBackReference
     private EmployeeModel approvedBy;
 
     @Column(name = "approval_date")

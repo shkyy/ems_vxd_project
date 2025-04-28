@@ -3,6 +3,7 @@ package ems.app.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class LeaveService {
     }
 
     public List<LeaveModel> getAllLeaves() {
-        return repo.findAll();
+        return new ArrayList<>(repo.findAll());
     }
 
     public Optional<LeaveModel> getLeaveById(Long id) {

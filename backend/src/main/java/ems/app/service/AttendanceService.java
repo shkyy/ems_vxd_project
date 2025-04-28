@@ -63,7 +63,7 @@ public class AttendanceService {
 
 
     @Transactional
-    public AttendanceModel clockIn(EmployeeModel employee, LocalDate date, LocalTime clockInTime) {
+    public synchronized AttendanceModel clockIn(EmployeeModel employee, LocalDate date, LocalTime clockInTime) {
         List<AttendanceModel> attendances = repo.findByEmployeeAndDate(employee, date);
 
         AttendanceModel attendance;
@@ -74,6 +74,7 @@ public class AttendanceService {
             attendance.setStatus("PRESENT");
         } else {
             attendance = attendances.get(0);
+            attendance.setStatus("PRESENT");
         }
 
         attendance.setClockIn(clockInTime);
@@ -81,7 +82,7 @@ public class AttendanceService {
     }
 
     @Transactional
-    public AttendanceModel clockOut(EmployeeModel employee, LocalDate date, LocalTime time) {
+    public synchronized AttendanceModel clockOut(EmployeeModel employee, LocalDate date, LocalTime time) {
         List<AttendanceModel> attendances = repo.findByEmployeeAndDate(employee, date);
 
         if (attendances.isEmpty()) {
@@ -124,7 +125,7 @@ public class AttendanceService {
     }
 
     @Transactional
-    public void markAbsent(EmployeeModel employee, LocalDate date) {
+    public synchronized void markAbsent(EmployeeModel employee, LocalDate date) {
         List<AttendanceModel> attendances = repo.findByEmployeeAndDate(employee, date);
 
         AttendanceModel attendance;

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 public interface LeaveRepo extends JpaRepository<LeaveModel, Long> {
     List<LeaveModel> findByEmployee(EmployeeModel employee);
     List<LeaveModel> findByStatus(String status);
-    List<LeaveModel> findByLeaveType(LocalDate leaveType);
+    List<LeaveModel> findByLeaveType(String leaveType);
 
     @Query("SELECT lv FROM LeaveModel lv WHERE lv.employee = :employee AND lv.status = :status")
     List<LeaveModel> findByEmployeeAndStatus(

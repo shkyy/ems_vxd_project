@@ -90,7 +90,7 @@ export default function AttendancePage () {
 
         } catch (error) {
             console.error("Error marking attendance: ", error);
-            setMessage({type: 'success', text: 'Clock-in recorded successfully'});
+            setMessage({type: 'error', text: 'Clock-in recorded successfully'});
             setSnackbarOpen(true);
         }
     }

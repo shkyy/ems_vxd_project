@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "attendance", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"employee_id", "date"})
@@ -21,6 +23,7 @@ public class AttendanceModel {
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
+    @JsonBackReference
     private EmployeeModel employee;
 
     @Column(name = "date", nullable = false)

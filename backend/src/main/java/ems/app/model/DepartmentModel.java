@@ -5,6 +5,9 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "department")
 @Data
@@ -23,6 +26,7 @@ public class DepartmentModel {
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
+    @JsonBackReference
     private EmployeeModel manager;
 
     @Column(name = "created_at")
@@ -32,6 +36,7 @@ public class DepartmentModel {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "department")
+    @JsonManagedReference
     private Set<EmployeeModel> employees = new HashSet<>();
 
     @PrePersist

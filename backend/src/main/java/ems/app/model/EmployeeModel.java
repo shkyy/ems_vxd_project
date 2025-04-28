@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "employee")
 @Data
@@ -53,19 +56,24 @@ public class EmployeeModel {
 
     @ManyToOne
     @JoinColumn(name = "department_id")
+    @JsonBackReference
     private DepartmentModel department;
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
+    @JsonBackReference
     private EmployeeModel manager;
 
     @OneToMany(mappedBy = "manager")
+    @JsonManagedReference
     private Set<EmployeeModel> subordinates = new HashSet<>();
 
     @OneToMany(mappedBy = "employee")
+    @JsonManagedReference
     private Set<AttendanceModel> attendances = new HashSet<>();
 
     @OneToMany(mappedBy = "employee")
+    @JsonManagedReference
     private Set<LeaveModel> leaves = new HashSet<>();
     
     @Column(name = "created_at")

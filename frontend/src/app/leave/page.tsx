@@ -4,7 +4,10 @@ import { useAuth } from "@/context/AuthContext";
 import { empApi, leaveAPI } from "@/services/api";
 import { Employee, Leave } from "@/types";
 import { Alert, Box, Button, Chip, CircularProgress, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, Grid, InputLabel, MenuItem, Paper, Select, SelectChangeEvent, Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 interface LeaveFormData {
     employeeId: number;
@@ -84,6 +87,10 @@ export default function LeavePage() {
 
     };
 
+    useEffect(() => {
+        fetchedData();
+    }, [selectedStatus, selectedEmployee]);
+
     const handleEmployeeChange = (e: SelectChangeEvent) => {
         setSelectedEmployee(e.target.value);
     };
@@ -107,7 +114,7 @@ export default function LeavePage() {
             return;
           }
     
-          // Calculate total days difference between start and end date
+          // calculate total days difference between start and end date
           const startDate = new Date(formData.startDate as Date);
           const endDate = new Date(formData.endDate as Date);
           const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
@@ -115,8 +122,8 @@ export default function LeavePage() {
     
           const leaveRequest = {
             employeeId: formData.employeeId,
-            startDate: formData.startDate?.toISOString().split('T')[0],
-            endDate: formData.endDate?.toISOString().split('T')[0],
+            startDate: (formData.startDate as Date).toISOString().split('T')[0],
+            endDate: (formData.endDate as Date).toISOString().split('T')[0],
             totaldays: diffDays,
             leaveType: formData.leaveType,
             reason: formData.reason,
@@ -216,17 +223,10 @@ export default function LeavePage() {
       const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString();
       };
-    
-      const calculateDuration = (startDate: string, endDate: string) => {
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        const diffTime = Math.abs(end.getTime() - start.getTime());
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // Add 1 to include both start and end days
-        return diffDays;
-      };
 
       return (
-          <Container maxWidth="lg" sx={{ py: 4 }}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <Container maxWidth="lg" sx={{ py: 4 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
               <Typography variant="h4" component="h1" fontWeight="600">
                 Leave Management
@@ -255,7 +255,7 @@ export default function LeavePage() {
               </Alert>
             </Snackbar>
     
-            {/* Apply Leave Form */}
+            {/* apply Leave Form */}
             {showApplyForm && (
               <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
                 <Typography variant="h6" gutterBottom>
@@ -285,7 +285,7 @@ export default function LeavePage() {
                       </FormControl>
                     </Grid>
                   )}
-                  <Grid item xs={12} md={user?.role === 'EMPLOYEE' ? 6 : 3}>
+                  <Grid sx={{xs: 12, md: user?.role === 'EMPLOYEE' ? 6 : 3}}>
                     <DatePicker
                       label="Start Date"
                       value={formData.startDate}
@@ -293,7 +293,7 @@ export default function LeavePage() {
                       slotProps={{ textField: { fullWidth: true } }}
                     />
                   </Grid>
-                  <Grid item xs={12} md={user?.role === 'EMPLOYEE' ? 6 : 3}>
+                  <Grid sx={{xs: 12, md: user?.role === 'EMPLOYEE' ? 6 : 3}}>
                     <DatePicker
                       label="End Date"
                       value={formData.endDate}
@@ -301,7 +301,7 @@ export default function LeavePage() {
                       slotProps={{ textField: { fullWidth: true } }}
                     />
                   </Grid>
-                  <Grid item xs={12} md={6}>
+                  <Grid sx={{xs: 12, md: 6}}>
                     <FormControl fullWidth>
                       <InputLabel id="leave-type-label">Leave Type</InputLabel>
                       <Select
@@ -321,7 +321,7 @@ export default function LeavePage() {
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} md={6}>
+                  <Grid sx={{xs: 12, md: 6}}>
                     <TextField
                       id="leave-reason"
                       label="Reason"
@@ -345,11 +345,11 @@ export default function LeavePage() {
               </Paper>
             )}
     
-            {/* Filters */}
+            {/* filters */}
             <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
               <Grid container spacing={3}>
                 {(user?.role === 'ADMIN' || user?.role === 'HR' || user?.role === 'MANAGER') && (
-                  <Grid item xs={12} md={6}>
+                  <Grid sx={{xs: 12, md: 6}}>
                     <FormControl fullWidth>
                       <InputLabel id="filter-employee-label">Employee</InputLabel>
                       <Select
@@ -369,7 +369,8 @@ export default function LeavePage() {
                     </FormControl>
                   </Grid>
                 )}
-                <Grid sx={{ xs: 1, md: {(user?.role === 'ADMIN' || user?.role === 'HR' || user?.role === 'MANAGER') ? 6 : 12} }} >
+                <Grid sx={{ xs: 1, md: user?.role === 'ADMIN' ? 6 : 12} }>
+                <FormControl fullWidth>
                     <Select
                       labelId="filter-status-label"
                       id="filter-status"
@@ -388,7 +389,7 @@ export default function LeavePage() {
               </Grid>
             </Paper>
     
-            {/* Leave Requests Table */}
+            {/* leave Requests Table */}
             <Paper elevation={3}>
               {loading ? (
                 <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
@@ -515,6 +516,8 @@ export default function LeavePage() {
               </DialogActions>
             </Dialog>
           </Container>
+        </LocalizationProvider>
+          
       );
 
 }
